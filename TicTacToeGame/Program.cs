@@ -9,8 +9,8 @@ namespace TicTacToeGame
         {
             Console.WriteLine("Welcome to TicTacToe Game");
             char[] board = BoardCreation();
-            char playerLetter = choosePlayerLetter();
             showBoard(board);
+            int playerMove = getPlayerMove(board);
         }
         private static char[] BoardCreation()
         {
@@ -21,12 +21,6 @@ namespace TicTacToeGame
             }
             return board;
         }
-            public static char choosePlayerLetter()
-            {
-                Console.WriteLine("Choose Letter: ");
-                string playerLetter = Console.ReadLine();
-                return char.ToUpper(playerLetter[0]);
-            }
         private static void showBoard(char[] board)
         {
             Console.WriteLine("\n " + board[1] + " | " + board[2] + " | " + board[3]);
@@ -35,7 +29,22 @@ namespace TicTacToeGame
             Console.WriteLine("---");
             Console.WriteLine("\n " + board[7] + " | " + board[8] + " | " + board[9]);
         }
+        private static int getPlayerMove(char[] board)
+        {
+            int[] spaces = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            while (true)
+            {
+                Console.WriteLine("Tell me your next move from 1-9");
+                int indexOfBoard = Convert.ToInt32(Console.ReadLine());
+                if (Array.Find<int>(spaces, element => element == indexOfBoard) != 0 && isFree(board, indexOfBoard))
+                    return indexOfBoard;
+            }
+        }
+        private static bool isFree(char[] board, int index)
+        {
+            return board[index] == ' ';
         }
     }
+}
 
 
