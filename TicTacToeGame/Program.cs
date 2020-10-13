@@ -5,6 +5,9 @@ namespace TicTacToeGame
 {
     public class Program
     {
+        const int HEAD = 0;
+        const int TAILS = 1;
+        public enum User { Player, Computer };
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to TicTacToe Game");
@@ -13,6 +16,7 @@ namespace TicTacToeGame
             int playerMove = getPlayerMove(board);
             char playerLetter = choosePlayerLetter();
             makingMove(board, playerMove, playerLetter);
+            User user = getStartingFirst();
         }
         private static char[] BoardCreation()
         {
@@ -55,9 +59,27 @@ namespace TicTacToeGame
         public static void makingMove(char[] board, int index, char letter)
         {
             bool Free = isFree(board, index);
-            if (Free) board[index] = letter;
+            if
+              (Free) board[index] = letter;
+            else
+            {
+                Console.WriteLine("Try again");
+            }
+        }
+        private static User getStartingFirst()
+        {
+            int toss = getRandomChoice(1);
+            return  (toss == HEAD) ? User.Player : User.Computer;
+        }
+        private static int getRandomChoice(int choice)
+        {
+            Random random = new Random();
+            return (int)(random.Next() * 10) % choice;
         }
     }
 }
 
+
+        
+        
 
