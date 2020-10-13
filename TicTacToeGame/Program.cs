@@ -11,6 +11,8 @@ namespace TicTacToeGame
             char[] board = BoardCreation();
             showBoard(board);
             int playerMove = getPlayerMove(board);
+            char playerLetter = choosePlayerLetter();
+            makingMove(board, playerMove, playerLetter);
         }
         private static char[] BoardCreation()
         {
@@ -20,6 +22,12 @@ namespace TicTacToeGame
                 board[i] = ' ';
             }
             return board;
+        }
+        private static char choosePlayerLetter()
+        {
+            Console.WriteLine("Choose Letter: ");
+            string playerLetter = Console.ReadLine();
+            return char.ToUpper(playerLetter[0]);
         }
         private static void showBoard(char[] board)
         {
@@ -43,6 +51,11 @@ namespace TicTacToeGame
         private static bool isFree(char[] board, int index)
         {
             return board[index] == ' ';
+        }
+        public static void makingMove(char[] board, int index, char letter)
+        {
+            bool Free = isFree(board, index);
+            if (Free) board[index] = letter;
         }
     }
 }
