@@ -9,16 +9,39 @@ namespace TicTacToeGame
         const int HEAD = 0;
         const int TAILS = 1;
         public enum User { Player, Computer };
+        public enum GameStatus { Won, Fullboard, Continue};
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to TicTacToe Game");
             char[] board = BoardCreation();
             showBoard(board);
-            int playerMove = getPlayerMove(board);
             char playerLetter = choosePlayerLetter();
-            makingMove(board, playerMove, playerLetter);
             User user = getStartingFirst();
-             Console.WriteLine("Check if Won " + Winner(board, playerLetter));
+            char computerLetter = (playerLetter == 'X') ? 'O' : 'X';
+            bool gameIsPlaying = true;
+            GameStatus gameStatus;
+            while (gameIsPlaying)
+            {
+                //Players turn
+                if (user.Equals(User.Player))
+                {
+                    showBoard(board);
+                    int playerMove = getPlayerMove(board);
+                    String WonMessage = "Hurray! You have won the Game!";
+                    gameStatus = getGameStatus(board, playerMove, playerLetter, WonMessage);
+                    user = User.Computer;
+                }
+                else
+                {
+                    //ComputerTurn
+                    String WonMessage = "The Computer has beaten you. You Lose!";
+                    int computerMove = getComputerMove(board, computerLetter, playerLetter);
+                    gameStatus = getGameStatus(board, computerMove, computerLetter, WonMessage);
+                    user = User.Player;
+                }
+                if (gameStatus.Equals(GameStatus.Continue)) continue;
+                gameIsPlaying = false;
+            }
             }
         private static char[] BoardCreation()
         {
@@ -133,6 +156,31 @@ namespace TicTacToeGame
                 if (isFree(board, moves[index])) return moves[index];
             }
             return 0;
+        }
+        private static GameStatus getGameStatus(char[] board, int move,char letter,String WonMessage)
+        {
+            makingMove(board, move, letter);
+            if (Winner(board, letter))
+            {
+                showBoard(board);
+                Console.WriteLine(WonMessage);
+                return GameStatus.Won;
+            }
+            if (isBoardFull(board))
+            {
+                showBoard(board);
+                Console.WriteLine("Game is tie");
+                return GameStatus.Fullboard;
+            }
+            return GameStatus.Continue;
+        }
+        private static bool isBoardFull(char[] board)
+        {
+            for(int index = 1; index < board.Length; index++)
+            {
+                if (isFree(board, index)) return false;
+            }
+            return true;
         }
     }
 }
