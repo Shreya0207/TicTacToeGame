@@ -18,7 +18,9 @@ namespace TicTacToeGame
             char playerLetter = choosePlayerLetter();
             makingMove(board, playerMove, playerLetter);
             User user = getStartingFirst();
-            Console.WriteLine("Check if Won " + Winner(board, playerLetter));
+             Console.WriteLine("Check if Won " + Winner(board, playerLetter));
+            
+
         }
         private static char[] BoardCreation()
         {
@@ -89,6 +91,33 @@ namespace TicTacToeGame
                       (b[1] == ch && b[5] == ch && b[9] == ch)  ||
                       (b[7] == ch && b[5] == ch && b[3] == ch));
 
+        }
+        private static int getComputerMove(char[] board, char computerLetter)
+        {
+            int computerMove = getComputerMove(board, computerLetter);
+            int winningMove = getWinningMove(board, computerLetter);
+            if (winningMove != 0) return winningMove;
+            return 0;
+        }
+        private static int getWinningMove(char[] board, char letter)
+        {
+            for(int index = 1; index<board.Length; index++)
+            {
+                char[] copyOfBoard = getCopyOfBoard(board);
+                if(isFree(copyOfBoard, index))
+                {
+                    makingMove(copyOfBoard, index, letter);
+                    if (Winner(copyOfBoard, letter))
+                        return index;
+                }
+            }
+            return 0;
+        }
+        private static char[] getCopyOfBoard(char[] board)
+        {
+            char[] boardCopy = new char[10];
+            getCopyOfBoard(boardCopy);
+            return boardCopy;
         }
     }
 }
