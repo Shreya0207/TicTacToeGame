@@ -92,11 +92,13 @@ namespace TicTacToeGame
         }
         private static int getComputerMove(char[] board, char computerLetter, char playerLetter)
         {
-            int computerMove = getComputerMove(board, computerLetter, playerLetter);
             int winningMove = getWinningMove(board, computerLetter);
             if (winningMove != 0) return winningMove;
             int userWinningMove = getWinningMove(board, playerLetter);
             if (userWinningMove != 0) return userWinningMove;
+             int[] cornerMoves = { 1, 3, 7, 9 };
+            int computerMove = getRandomMoveFromList(board, cornerMoves);
+            if (computerMove != 0) return computerMove;
             return 0;
         }
         private static int getWinningMove(char[] board, char letter)
@@ -118,6 +120,15 @@ namespace TicTacToeGame
             char[] boardCopy = new char[10];
             getCopyOfBoard(boardCopy);
             return boardCopy;
+        }
+
+        private static int getRandomMoveFromList(char[] board, int[] moves)
+        {
+          for(int index =0;index<moves.Length; index++)
+            {
+                if (isFree(board, moves[index])) return moves[index];
+            }
+            return 0;
         }
     }
 }
