@@ -182,6 +182,13 @@ namespace TicTacToeGame
             }
             return true;
         }
+        private static bool playAgain()
+        {
+            Console.WriteLine("Do you want to play again? ( yes/no)");
+            string option = Console.ReadLine().ToLower();
+            if (option.Equals("yes")) return true;
+            return false;
+        }
     }
 }
 
